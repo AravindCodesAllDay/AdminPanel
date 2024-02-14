@@ -2,29 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import img1 from "../assets/curelli_logo.webp";
-// import img2 from "../assets/cart.svg";
-// import Dropdown from "./Dropdown";
 
 export default function Navbar() {
-  //   const userId = sessionStorage.getItem("id");
-  //   const location = useLocation();
-
-  //   const [isUserIdPresent, setIsUserIdPresent] = useState(false);
-
-  //   useEffect(() => {
-  //     const handleSubmission = async () => {
-  //       try {
-  //         const response = await fetch(
-  //           `${import.meta.env.VITE_API}users/${userId}`
-  //         );
-  //         setIsUserIdPresent(response.ok);
-  //       } catch (error) {
-  //         console.error("Error fetching user data:", error);
-  //       }
-  //     };
-
-  //     handleSubmission();
-  //   }, [userId]);
 
   return (
     <div className="flex flex-col items-center justify-center gap-[2px] relative bg-white">
@@ -41,30 +20,30 @@ export default function Navbar() {
         <div className="flex items-center gap-[16px] relative">
           <div
             className={`text-[16px] ${
-              location.pathname === "/"
+              location.pathname === "/add"
                 ? "text-[#6b986a]"
                 : "hover:text-[#6b986a] text-white"
             }`}
           >
-            <Link to={`/`}>Home</Link>
+            <Link to={`/add`}>Add</Link>
           </div>
           <div
             className={` text-[16px] ${
-              location.pathname === "/aboutus"
+              location.pathname === "/view"
                 ? "text-[#6b986a]"
                 : "hover:text-[#6b986a] text-white"
             }`}
           >
-            <Link to={`/aboutus`}>About Us</Link>
+            <Link to={`/view`}>View</Link>
           </div>
           <div
             className={` text-[16px] ${
-              location.pathname === "/shop"
+              location.pathname === "/carousel"
                 ? "text-[#6b986a]"
                 : "hover:text-[#6b986a] text-white"
             }`}
           >
-            <Link to={`/shop`}>Shop</Link>
+            <Link to={`/carousel`}>Carousel</Link>
           </div>
           <div
             className={`text-[16px] ${

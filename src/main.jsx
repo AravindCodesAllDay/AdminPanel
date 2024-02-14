@@ -6,6 +6,13 @@ import WelcomePage from "./pages/WelcomePage.jsx";
 import NoPage from "./pages/NoPage.jsx";
 import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
+import UpdateProduct from "./pages/Update.jsx";
+import GridData from "./components/GridData.jsx";
+import Addproduct from "./pages/Addproduct.jsx";
+import ViewProducts from "./pages/ViewProducts.jsx";
+import CarouselImg from "./pages/CarouselImg.jsx";
+import Cart from "./pages/Cart.jsx";
+import WishlistPage from "./pages/Wishlist.jsx";
 
 const router = createBrowserRouter([
   {
@@ -13,12 +20,36 @@ const router = createBrowserRouter([
     element: <WelcomePage />,
   },
   {
+    path: "/view",
+    element: <ViewProducts />,
+  },
+  {
     path: "/login",
     element: <Login />,
   },
   {
+    path: "/update/:_id",
+    element: <UpdateProduct />,
+  },
+  {
+    path: "/add",
+    element: <Addproduct/>,
+  },
+  {
     path: "/home",
-    element: <Home />,
+    element: <ViewProducts/>,
+  },
+  {
+    path: "/carousel",
+    element: <CarouselImg/>,
+  },
+  {
+    path: "/wishlist",
+    element: <WishlistPage/>,
+  },
+  {
+    path: "/cart",
+    element: <Cart/>,
   },
   {
     path: "*",

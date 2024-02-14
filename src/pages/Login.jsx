@@ -13,17 +13,20 @@ const Login = () => {
 
   const handleSubmission = async (e) => {
     e.preventDefault();
-
+    console.log(import.meta.env.VITE_LOGIN,import.meta.env.VITE_PSWD)
+    console.log(username,pswd)
     try {
       if (
         import.meta.env.VITE_LOGIN == username &&
         import.meta.env.VITE_PSWD == pswd
       ) {
         const getToken = async () =>{
-          const res = await fetch(`http://localhost:3001/users/admin/${import.meta.env.SECRET_KEY}`)
+          const res = await fetch(`http://localhost:3000/users/admin/${import.meta.env.VITE_SECRET_KEY}`);
           const data = await res.json();
-          
+          sessionStorage.setItem('token',data.token )
+          nav('/home')
         }
+        getToken()
       }
     } catch (error) {
       console.error("Error during login:", error.message);
