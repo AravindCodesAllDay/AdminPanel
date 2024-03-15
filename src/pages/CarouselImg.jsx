@@ -17,14 +17,11 @@ export default function CarouselImg() {
 
       if (response.ok) {
         console.log("Images uploaded successfully.");
-        // Add any further handling if needed, such as redirecting or displaying a success message.
       } else {
         console.error("Error uploading images.");
-        // Handle error scenarios, such as displaying an error message to the user.
       }
     } catch (error) {
       console.error("Error uploading images:", error);
-      // Handle network errors or other exceptions.
     }
   };
 
@@ -87,6 +84,22 @@ export default function CarouselImg() {
                 className="w-96 shadow-md rounded py-2 px-3 mt-1 mb-4 bg-gray-50 font-contetnt  focus:outline-brown"
                 id="carouselImage3"
                 name="carouselImage3"
+                accept="image/*"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="carouselImage4"
+                className="text-l font-semibold font-content text-primecolor mr-3"
+              >
+                Carousel Image 4:
+              </label>
+              <input
+                type="file"
+                className="w-96 shadow-md rounded py-2 px-3 mt-1 mb-4 bg-gray-50 font-contetnt  focus:outline-brown"
+                id="carouselImage4"
+                name="carouselImage4"
                 accept="image/*"
                 required
               />

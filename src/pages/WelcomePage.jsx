@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const WelcomePage = () => {
   const navigate = useNavigate();
+
+  
+
 
   return (
     <main className="flex flex-col items-center justify-center h-screen">

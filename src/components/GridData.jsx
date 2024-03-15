@@ -47,11 +47,11 @@ export default function GridData() {
   useEffect(() => {
     const fetchRows = async () => {
       try {
-        const [productsRes, bestsellersRes] = await Promise.all([
+        const [productsRes] = await Promise.all([
           fetch("http://localhost:3000/products"),
         ]);
   
-        const [productsData, bestsellersData] = await Promise.all([
+        const [productsData] = await Promise.all([
           productsRes.json(),
         ]);
   

@@ -10,6 +10,9 @@ import UpdateProduct from "./pages/Update.jsx";
 import Addproduct from "./pages/Addproduct.jsx";
 import ViewProducts from "./pages/ViewProducts.jsx";
 import CarouselImg from "./pages/CarouselImg.jsx";
+import SendOtp from "./pages/SendOtp.jsx";
+import Verify from "./pages/Verify.jsx";
+import Register from "./pages/Register.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +30,18 @@ const router = createBrowserRouter([
   {
     path: "/update/:_id",
     element: <UpdateProduct />,
+  },
+  {
+    path: "/otp",
+    element: <SendOtp/>,
+  },
+  {
+    path: "/register",
+    element: <Register/>,
+  },
+  {
+    path: "/verify/:mail",
+    element: <Verify/>,
   },
   {
     path: "/add",

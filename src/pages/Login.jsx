@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import bcrypt from "bcryptjs";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,29 +10,64 @@ const Login = () => {
   const nav = useNavigate();
   const [username, setUsername] = useState("");
   const [pswd, setPswd] = useState("");
+  const [desktopCarousels, setDesktopCarousels] = useState([]);
+  const [mobileCarousels, setMobileCarousels] = useState([]);
 
   const handleSubmission = async (e) => {
     e.preventDefault();
-    console.log(import.meta.env.VITE_LOGIN,import.meta.env.VITE_PSWD)
-    console.log(username,pswd)
+    console.log(import.meta.env.VITE_LOGIN, import.meta.env.VITE_PSWD);
+    console.log(username, pswd);
     try {
       if (
         import.meta.env.VITE_LOGIN == username &&
         import.meta.env.VITE_PSWD == pswd
       ) {
-        const getToken = async () =>{
-          const res = await fetch(`http://localhost:3000/users/admin/${import.meta.env.VITE_SECRET_KEY}`);
+        const getToken = async () => {
+          const res = await fetch(
+            `http://localhost:3000/users/admin/${
+              import.meta.env.VITE_SECRET_KEY
+            }`
+          );
           const data = await res.json();
-          sessionStorage.setItem('token',data.token )
-          nav('/home')
-        }
-        getToken()
+          sessionStorage.setItem("token", data.token);
+          nav("/home");
+        };
+        getToken();
       }
     } catch (error) {
       console.error("Error during login:", error.message);
       toast.error("Error during login, try again later");
     }
-  };  
+  };
+
+  useEffect(() => {
+    const fetchMobileImages = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/carousels`);
+        const data = await res.json();
+
+        const mobileImages = [];
+        const desktopImages = [];
+
+        data.forEach((element) => {
+          if (element.mobile) {
+            mobileImages.push(element);
+          } else {
+            desktopImages.push(element);
+          }
+        });
+
+        setMobileCarousels(mobileImages);
+        setDesktopCarousels(desktopImages);
+
+        console.log(desktopImages, mobileImages);
+      } catch (error) {
+        console.error("Error fetching mobile images:", error);
+      }
+    };
+
+    fetchMobileImages();
+  }, []);
 
   return (
     <>
@@ -67,6 +102,7 @@ const Login = () => {
                 placeholder="Password"
                 className="input-field border-[1px] p-2 rounded border-[#0d5b41]"
               />
+              <Link to="/otp">Forgot Password?</Link>
               <button
                 type="submit"
                 className="submit-button bg-[#277933] text-white h-10 p-2 rounded"
