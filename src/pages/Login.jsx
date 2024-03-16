@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import bcrypt from "bcryptjs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import img1 from "../assets/curelli_logo.webp";
-import google from "../assets/google.svg";
+import img1 from "../assets/Logo01.webp";
 
 const Login = () => {
   const nav = useNavigate();
   const [username, setUsername] = useState("");
   const [pswd, setPswd] = useState("");
-  const [desktopCarousels, setDesktopCarousels] = useState([]);
-  const [mobileCarousels, setMobileCarousels] = useState([]);
 
   const handleSubmission = async (e) => {
     e.preventDefault();
@@ -24,13 +20,13 @@ const Login = () => {
       ) {
         const getToken = async () => {
           const res = await fetch(
-            `http://localhost:3000/users/admin/${
+            `${import.meta.env.VITE_API}users/admin/${
               import.meta.env.VITE_SECRET_KEY
             }`
           );
           const data = await res.json();
           sessionStorage.setItem("token", data.token);
-          nav("/home");
+          nav("/view");
         };
         getToken();
       }
@@ -39,35 +35,6 @@ const Login = () => {
       toast.error("Error during login, try again later");
     }
   };
-
-  useEffect(() => {
-    const fetchMobileImages = async () => {
-      try {
-        const res = await fetch(`http://localhost:3000/carousels`);
-        const data = await res.json();
-
-        const mobileImages = [];
-        const desktopImages = [];
-
-        data.forEach((element) => {
-          if (element.mobile) {
-            mobileImages.push(element);
-          } else {
-            desktopImages.push(element);
-          }
-        });
-
-        setMobileCarousels(mobileImages);
-        setDesktopCarousels(desktopImages);
-
-        console.log(desktopImages, mobileImages);
-      } catch (error) {
-        console.error("Error fetching mobile images:", error);
-      }
-    };
-
-    fetchMobileImages();
-  }, []);
 
   return (
     <>

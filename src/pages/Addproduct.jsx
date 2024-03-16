@@ -6,8 +6,8 @@ export default function Addproduct() {
   const [photo, setPhoto] = useState();
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState("");
-  const [rating,setRating] = useState("")
-  const[numOfRating,setNumOfRating] = useState("");
+  const [rating, setRating] = useState("");
+  const [numOfRating, setNumOfRating] = useState("");
 
   const handleSubmission = async (e) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ export default function Addproduct() {
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <div className="flex justify-center mt-12">
         <h1 className="text-xl font-semibold font-content text-primecolor mt-2">
           Add your new product here

@@ -1,10 +1,9 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import img1 from "../assets/curelli_logo.webp";
+import img1 from "../assets/Logo01.webp";
 
 export default function Navbar() {
-
+  const location = useLocation();
   return (
     <div className="flex flex-col items-center justify-center gap-[2px] relative bg-white">
       <div className="flex flex-col items-center justify-center gap-[10px] relative w-full max-w-[1440px]">
@@ -20,21 +19,21 @@ export default function Navbar() {
         <div className="flex items-center gap-[16px] relative">
           <div
             className={`text-[16px] ${
-              location.pathname === "/add"
-                ? "text-[#6b986a]"
-                : "hover:text-[#6b986a] text-white"
-            }`}
-          >
-            <Link to={`/add`}>Add</Link>
-          </div>
-          <div
-            className={` text-[16px] ${
               location.pathname === "/view"
                 ? "text-[#6b986a]"
                 : "hover:text-[#6b986a] text-white"
             }`}
           >
-            <Link to={`/view`}>View</Link>
+            <Link to={`/view`}>ViewProduct</Link>
+          </div>
+          <div
+            className={`text-[16px] ${
+              location.pathname === "/add"
+                ? "text-[#6b986a]"
+                : "hover:text-[#6b986a] text-white"
+            }`}
+          >
+            <Link to={`/add`}>AddProduct</Link>
           </div>
           <div
             className={` text-[16px] ${
@@ -43,30 +42,18 @@ export default function Navbar() {
                 : "hover:text-[#6b986a] text-white"
             }`}
           >
-            <Link to={`/carousel`}>Carousel</Link>
+            <Link to={`/carousel`}>ViewCarousel</Link>
           </div>
           <div
-            className={`text-[16px] ${
-              location.pathname === "/contact"
+            className={` text-[16px] ${
+              location.pathname === "/carousel"
                 ? "text-[#6b986a]"
                 : "hover:text-[#6b986a] text-white"
             }`}
           >
-            <Link to={`/contact`}>Contact</Link>
+            <Link to={`/carousel`}>AddCarousel</Link>
           </div>
         </div>
-        {/* <div className="flex items-center gap-2 justify-center">
-          <Link to="/cart">
-            <img className="w-[30px] h-[30px]" alt="Shopping cart" src={img1} />
-          </Link>
-          {isUserIdPresent ? (
-            <Dropdown />
-          ) : (
-            <div className="text-white text-[14px] border-white border-2 p-1 rounded hover:bg-white hover:text-black">
-              <Link to="/login">Login</Link>
-            </div>
-          )}
-        </div> */}
       </div>
     </div>
   );

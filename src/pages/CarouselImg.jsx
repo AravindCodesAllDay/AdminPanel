@@ -8,7 +8,7 @@ export default function CarouselImg() {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/products/addcarousels",
+        `${import.meta.env.VITE_API}products/addcarousels`,
         {
           method: "POST",
           body: formData,
@@ -118,5 +118,3 @@ export default function CarouselImg() {
     </>
   );
 }
-
-<></>;

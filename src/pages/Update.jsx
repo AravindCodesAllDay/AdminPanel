@@ -13,7 +13,7 @@ export default function UpdateProduct() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/products/${_id}`);
+        const res = await fetch(`${import.meta.env.VITE_API}products/${_id}`);
         if (!res.ok) {
           throw new Error("Failed to fetch product");
         }
@@ -40,8 +40,8 @@ export default function UpdateProduct() {
       if (photo) {
         formData.append("photo", photo);
       }
-      console.log(formData)
-      const res = await fetch(`http://localhost:3000/products/${_id}`, {
+      console.log(formData);
+      const res = await fetch(`${import.meta.env.VITE_API}products/${_id}`, {
         method: "PUT",
         body: formData,
       });
