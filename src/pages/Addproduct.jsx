@@ -1,6 +1,10 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
+
 export default function Addproduct() {
+  const navigate = useNavigate();
+
   const [name, setProductName] = useState("");
   const [price, setPrice] = useState("");
   const [photo, setPhoto] = useState();
@@ -21,7 +25,30 @@ export default function Addproduct() {
     formData.append("rating", rating);
     formData.append("numOfRating", numOfRating);
 
-    const res = await fetch(`http://localhost:3000/products`, {
+    useEffect(() => {
+      const token = sessionStorage.getItem("token");
+      const verifyToken = async () => {
+        try {
+          if (!token) {
+            throw new Error("Token not found");
+          }
+
+          const response = await fetch(
+            `${import.meta.env.VITE_API}users/admin/verify/${token}`
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to verify token");
+          }
+        } catch (error) {
+          console.error("Error verifying token:", error);
+          navigate("/login");
+        }
+      };
+      verifyToken();
+    }, [navigate]);
+
+    const res = await fetch(`${import.meta.env.VITE_API}products`, {
       method: "POST",
       body: formData,
     });

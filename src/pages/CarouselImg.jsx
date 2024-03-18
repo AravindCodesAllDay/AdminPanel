@@ -1,14 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 export default function CarouselImg() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const verifyToken = async () => {
+      try {
+        if (!token) {
+          throw new Error("Token not found");
+        }
+
+        const response = await fetch(
+          `${import.meta.env.VITE_API}users/admin/verify/${token}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to verify token");
+        }
+      } catch (error) {
+        console.error("Error verifying token:", error);
+        navigate("/login");
+      }
+    };
+    verifyToken();
+  }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API}products/addcarousels`,
+        `${import.meta.env.VITE_API}carousel/addcarousels`,
         {
           method: "POST",
           body: formData,

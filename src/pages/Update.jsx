@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function UpdateProduct() {
+  const navigate = useNavigate();
+
   const { _id } = useParams();
 
   const [name, setProductName] = useState("");
@@ -9,6 +11,29 @@ export default function UpdateProduct() {
   const [photo, setPhoto] = useState(null);
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState("");
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const verifyToken = async () => {
+      try {
+        if (!token) {
+          throw new Error("Token not found");
+        }
+
+        const response = await fetch(
+          `${import.meta.env.VITE_API}users/admin/verify/${token}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to verify token");
+        }
+      } catch (error) {
+        console.error("Error verifying token:", error);
+        navigate("/login");
+      }
+    };
+    verifyToken();
+  }, [navigate]);
 
   useEffect(() => {
     const fetchProduct = async () => {

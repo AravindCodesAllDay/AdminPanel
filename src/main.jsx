@@ -9,6 +9,7 @@ import UpdateProduct from "./pages/Update.jsx";
 import Addproduct from "./pages/Addproduct.jsx";
 import ViewProducts from "./pages/ViewProducts.jsx";
 import CarouselImg from "./pages/CarouselImg.jsx";
+import ViewUsers from "./pages/ViewUsers.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,16 +17,20 @@ const router = createBrowserRouter([
     element: <WelcomePage />,
   },
   {
-    path: "/view",
+    path: "/viewproducts",
     element: <ViewProducts />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
   },
   {
     path: "/update/:_id",
     element: <UpdateProduct />,
+  },
+  {
+    path: "/viewusers",
+    element: <ViewUsers />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
   {
     path: "/add",

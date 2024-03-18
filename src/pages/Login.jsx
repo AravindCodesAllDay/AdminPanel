@@ -1,34 +1,33 @@
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import img1 from "../assets/Logo01.webp";
 
 const Login = () => {
-  const nav = useNavigate();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [pswd, setPswd] = useState("");
 
   const handleSubmission = async (e) => {
     e.preventDefault();
-    console.log(import.meta.env.VITE_LOGIN, import.meta.env.VITE_PSWD);
-    console.log(username, pswd);
+
     try {
       if (
-        import.meta.env.VITE_LOGIN == username &&
-        import.meta.env.VITE_PSWD == pswd
+        import.meta.env.VITE_LOGIN === username &&
+        import.meta.env.VITE_PSWD === pswd
       ) {
-        const getToken = async () => {
-          const res = await fetch(
-            `${import.meta.env.VITE_API}users/admin/${
-              import.meta.env.VITE_SECRET_KEY
-            }`
-          );
-          const data = await res.json();
-          sessionStorage.setItem("token", data.token);
-          nav("/view");
-        };
-        getToken();
+        const res = await fetch(
+          `${import.meta.env.VITE_API}users/admin/${
+            import.meta.env.VITE_SECRET_KEY
+          }`
+        );
+        const data = await res.json();
+
+        sessionStorage.setItem("token", data.token);
+        navigate("/viewproducts");
+      } else {
+        toast.error("Invalid username or password");
       }
     } catch (error) {
       console.error("Error during login:", error.message);

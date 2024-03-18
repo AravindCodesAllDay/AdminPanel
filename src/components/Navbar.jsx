@@ -19,12 +19,12 @@ export default function Navbar() {
         <div className="flex items-center gap-[16px] relative">
           <div
             className={`text-[16px] ${
-              location.pathname === "/view"
+              location.pathname === "/viewproducts"
                 ? "text-[#6b986a]"
                 : "hover:text-[#6b986a] text-white"
             }`}
           >
-            <Link to={`/view`}>ViewProduct</Link>
+            <Link to={`/viewproducts`}>ViewProduct</Link>
           </div>
           <div
             className={`text-[16px] ${
@@ -34,6 +34,15 @@ export default function Navbar() {
             }`}
           >
             <Link to={`/add`}>AddProduct</Link>
+          </div>
+          <div
+            className={`text-[16px] ${
+              location.pathname === "/viewusers"
+                ? "text-[#6b986a]"
+                : "hover:text-[#6b986a] text-white"
+            }`}
+          >
+            <Link to={`/viewusers`}>ViewUsers</Link>
           </div>
           <div
             className={` text-[16px] ${
