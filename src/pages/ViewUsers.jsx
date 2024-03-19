@@ -51,8 +51,9 @@ export default function ViewUsers() {
         if (!response.ok) {
           throw new Error("Failed to fetch users");
         }
-        const userData = await response.json();
-        setUserData(userData.map(mapUserData));
+        const usersData = await response.json();
+        console.log(usersData);
+        setUserData(usersData.map(mapUserData));
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -83,7 +84,9 @@ export default function ViewUsers() {
       renderCell: (params) => (
         <div>
           {params.value.map((item, index) => (
-            <div key={index}>{item}</div>
+            <div key={index}>
+              {item.product}, {item._id}
+            </div>
           ))}
         </div>
       ),
@@ -96,7 +99,9 @@ export default function ViewUsers() {
       renderCell: (params) => (
         <div>
           {params.value.map((item, index) => (
-            <div key={index}>{item}</div>
+            <div key={index}>
+              {item.product}, {item._id}
+            </div>
           ))}
         </div>
       ),

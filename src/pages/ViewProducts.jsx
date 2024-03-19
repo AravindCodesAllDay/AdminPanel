@@ -15,6 +15,7 @@ export default function GridData() {
         throw new Error("Failed to fetch products");
       }
       const productsData = await response.json();
+      console.log(productsData);
       setProductData(productsData.map(mapProductData));
     } catch (error) {
       console.error("Error fetching data:", error);
