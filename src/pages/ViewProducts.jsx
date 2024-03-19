@@ -65,7 +65,7 @@ export default function GridData() {
         }
       } catch (error) {
         console.error("Error verifying token:", error);
-        navigate("/login");
+        navigate("/");
       }
     };
     verifyToken();

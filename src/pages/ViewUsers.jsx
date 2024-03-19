@@ -38,7 +38,7 @@ export default function ViewUsers() {
         }
       } catch (error) {
         console.error("Error verifying token:", error);
-        navigate("/login");
+        navigate("/");
       }
     };
     verifyToken();

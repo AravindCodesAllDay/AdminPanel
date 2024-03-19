@@ -14,7 +14,7 @@ import ViewUsers from "./pages/ViewUsers.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <WelcomePage />,
+    element: <Login />,
   },
   {
     path: "/viewproducts",
@@ -27,10 +27,6 @@ const router = createBrowserRouter([
   {
     path: "/viewusers",
     element: <ViewUsers />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
   },
   {
     path: "/add",

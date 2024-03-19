@@ -29,7 +29,7 @@ export default function UpdateProduct() {
         }
       } catch (error) {
         console.error("Error verifying token:", error);
-        navigate("/login");
+        navigate("/");
       }
     };
     verifyToken();

@@ -22,7 +22,7 @@ export default function CarouselImg() {
         }
       } catch (error) {
         console.error("Error verifying token:", error);
-        navigate("/login");
+        navigate("/");
       }
     };
     verifyToken();
