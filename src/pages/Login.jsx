@@ -7,7 +7,7 @@ import img1 from "../assets/Logo01.webp";
 const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
-  const [pswd, setPswd] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmission = async (e) => {
     e.preventDefault();
@@ -15,17 +15,48 @@ const Login = () => {
     try {
       if (
         import.meta.env.VITE_LOGIN === username &&
-        import.meta.env.VITE_PSWD === pswd
+        import.meta.env.VITE_PSWD === password
       ) {
-        const res = await fetch(
-          `${import.meta.env.VITE_API}users/admin/${
-            import.meta.env.VITE_SECRET_KEY
-          }`
+        const loginRes = await fetch(
+          `${import.meta.env.VITE_API}users/admin/login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }), // Assuming the login API requires username and password
+          }
         );
-        const data = await res.json();
 
-        sessionStorage.setItem("token", data.token);
-        navigate("/viewproducts");
+        if (!loginRes.ok) {
+          throw new Error("Login failed");
+        }
+
+        const loginData = await loginRes.json();
+        console.log(loginData);
+        const verifyRes = await fetch(
+          `${import.meta.env.VITE_API}users/admin/verify/${loginData.token}`,
+          {
+            method: "GET", // Adjust the method according to your backend route
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${loginData.token}`, // Assuming your backend expects token in Authorization header
+            },
+          }
+        );
+
+        if (!verifyRes.ok) {
+          throw new Error("Token verification failed");
+        }
+
+        const verificationData = await verifyRes.json();
+
+        if (verificationData.valid) {
+          sessionStorage.setItem("token", loginData.token);
+          navigate("/viewproducts");
+        } else {
+          toast.error("Token verification failed");
+        }
       } else {
         toast.error("Invalid username or password");
       }
@@ -63,8 +94,8 @@ const Login = () => {
               />
               <input
                 type="password"
-                value={pswd}
-                onChange={(e) => setPswd(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
                 className="input-field border-[1px] p-2 rounded border-[#0d5b41]"
               />
