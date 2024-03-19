@@ -76,36 +76,36 @@ export default function ViewUsers() {
     { field: "name", headerName: "Name", headerAlign: "center", width: 150 },
     { field: "phone", headerName: "Phone", headerAlign: "center", width: 150 },
     { field: "mail", headerName: "Email", headerAlign: "center", width: 200 },
-    {
-      field: "cart",
-      headerName: "Cart",
-      headerAlign: "center",
-      width: 200,
-      renderCell: (params) => (
-        <div>
-          {params.value.map((item, index) => (
-            <div key={index}>
-              {item.product}, {item._id}
-            </div>
-          ))}
-        </div>
-      ),
-    },
-    {
-      field: "wishlist",
-      headerName: "Wishlist",
-      headerAlign: "center",
-      width: 200,
-      renderCell: (params) => (
-        <div>
-          {params.value.map((item, index) => (
-            <div key={index}>
-              {item.product}, {item._id}
-            </div>
-          ))}
-        </div>
-      ),
-    },
+    // {
+    //   field: "cart",
+    //   headerName: "Cart",
+    //   headerAlign: "center",
+    //   width: 200,
+    //   renderCell: (params) => (
+    //     <div>
+    //       {params.value.map((item, index) => (
+    //         <div key={index}>
+    //           {item.product}, {item._id}
+    //         </div>
+    //       ))}
+    //     </div>
+    //   ),
+    // },
+    // {
+    //   field: "wishlist",
+    //   headerName: "Wishlist",
+    //   headerAlign: "center",
+    //   width: 200,
+    //   renderCell: (params) => (
+    //     <div>
+    //       {params.value.map((item, index) => (
+    //         <div key={index}>
+    //           {item.product}, {item._id}
+    //         </div>
+    //       ))}
+    //     </div>
+    //   ),
+    // },
     {
       field: "delete",
       headerName: "Delete",
