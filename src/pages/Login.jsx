@@ -17,16 +17,13 @@ const Login = () => {
         import.meta.env.VITE_LOGIN === username &&
         import.meta.env.VITE_PSWD === password
       ) {
-        const loginRes = await fetch(
-          `${import.meta.env.VITE_API}users/admin/login`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password }), // Assuming the login API requires username and password
-          }
-        );
+        const loginRes = await fetch(`${import.meta.env.VITE_API}admin/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }), // Assuming the login API requires username and password
+        });
 
         if (!loginRes.ok) {
           throw new Error("Login failed");
@@ -35,7 +32,7 @@ const Login = () => {
         const loginData = await loginRes.json();
         console.log(loginData);
         const verifyRes = await fetch(
-          `${import.meta.env.VITE_API}users/admin/verify/${loginData.token}`,
+          `${import.meta.env.VITE_API}admin/verify/${loginData.token}`,
           {
             method: "GET", // Adjust the method according to your backend route
             headers: {

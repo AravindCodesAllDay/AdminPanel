@@ -57,7 +57,7 @@ export default function GridData() {
         }
 
         const response = await fetch(
-          `${import.meta.env.VITE_API}users/admin/verify/${token}`
+          `${import.meta.env.VITE_API}admin/verify/${token}`
         );
 
         if (!response.ok) {

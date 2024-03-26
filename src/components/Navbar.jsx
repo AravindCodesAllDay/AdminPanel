@@ -61,6 +61,15 @@ export default function Navbar() {
             }`}
           >
             <Link to={`/carousel`}>AddCarousel</Link>
+          </div>{" "}
+          <div
+            className={` text-[16px] ${
+              location.pathname === "/orders"
+                ? "text-[#6b986a]"
+                : "hover:text-[#6b986a] text-white"
+            }`}
+          >
+            <Link to={`/orders`}>Orders</Link>
           </div>
         </div>
       </div>

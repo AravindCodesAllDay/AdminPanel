@@ -9,6 +9,7 @@ import Addproduct from "./pages/Addproduct.jsx";
 import ViewProducts from "./pages/ViewProducts.jsx";
 import CarouselImg from "./pages/CarouselImg.jsx";
 import ViewUsers from "./pages/ViewUsers.jsx";
+import Orders from "./pages/Orders.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/add",
     element: <Addproduct />,
+  },
+  {
+    path: "/orders",
+    element: <Orders />,
   },
   {
     path: "/carousel",
