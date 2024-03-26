@@ -34,7 +34,7 @@ export default function Orders() {
   const deleteOrder = async (_id) => {
     if (window.confirm("Are you sure you want to delete this order?")) {
       try {
-        await fetch(`http://localhost:3000/orders/${_id}`, {
+        await fetch(`${import.meta.env.VITE_API}orders/${_id}`, {
           method: "DELETE",
         });
         setOrderData(orderData.filter((order) => order.id !== _id));
@@ -47,7 +47,7 @@ export default function Orders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/orders`);
+        const response = await fetch(`${import.meta.env.VITE_API}orders`);
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }
@@ -57,18 +57,6 @@ export default function Orders() {
         console.error("Error fetching order data:", error);
       }
     };
-
-    // const fetchAddress = async (userId, addressId) => {
-    //   console.log(userId, addressId);
-    //   const addressRes = await fetch(
-    //     `http://localhost:3000/users/address/?identifier=${userId}&addressId=${addressId}`
-    //   );
-    //   const data = await addressRes.json();
-    //   if (addressRes.ok) {
-    //     console.log(data);
-    //   }
-    // };
-
     fetchOrders();
   }, []);
 
