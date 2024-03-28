@@ -12,6 +12,12 @@
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
+    <script>
+      addEventListener("beforeunload", (event) => {});
+      onbeforeunload = (event) => {
+        sessionStorage.clear();
+      };
+    </script>
     <title>Curelli Admin</title>
   </head>
   <body>

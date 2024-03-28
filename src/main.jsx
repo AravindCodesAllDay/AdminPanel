@@ -8,6 +8,7 @@ import UpdateProduct from "./pages/Update.jsx";
 import Addproduct from "./pages/Addproduct.jsx";
 import ViewProducts from "./pages/ViewProducts.jsx";
 import CarouselImg from "./pages/CarouselImg.jsx";
+import PopularProducts from "./pages/PopularProducts.jsx";
 import ViewUsers from "./pages/ViewUsers.jsx";
 import Orders from "./pages/Orders.jsx";
 
@@ -33,12 +34,16 @@ const router = createBrowserRouter([
     element: <Addproduct />,
   },
   {
-    path: "/orders",
-    element: <Orders />,
-  },
-  {
     path: "/carousel",
     element: <CarouselImg />,
+  },
+  {
+    path: "/popularproducts",
+    element: <PopularProducts />,
+  },
+  {
+    path: "/orders",
+    element: <Orders />,
   },
   {
     path: "*",

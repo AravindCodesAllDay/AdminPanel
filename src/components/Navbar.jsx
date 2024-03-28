@@ -1,9 +1,14 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import img1 from "../assets/Logo01.webp";
 
 export default function Navbar() {
+  const nav = useNavigate();
   const location = useLocation();
+  const signout = () => {
+    sessionStorage.clear();
+    nav("/");
+  };
   return (
     <div className="flex flex-col items-center justify-center gap-[2px] relative bg-white">
       <div className="flex flex-col items-center justify-center gap-[10px] relative w-full max-w-[1440px]">
@@ -61,7 +66,16 @@ export default function Navbar() {
             }`}
           >
             <Link to={`/carousel`}>AddCarousel</Link>
-          </div>{" "}
+          </div>
+          <div
+            className={` text-[16px] ${
+              location.pathname === "/popularproducts"
+                ? "text-[#6b986a]"
+                : "hover:text-[#6b986a] text-white"
+            }`}
+          >
+            <Link to={`/popularproducts`}>PopularProducts</Link>
+          </div>
           <div
             className={` text-[16px] ${
               location.pathname === "/orders"
@@ -71,6 +85,14 @@ export default function Navbar() {
           >
             <Link to={`/orders`}>Orders</Link>
           </div>
+        </div>
+        <div>
+          <button
+            className="border border-white px-1 rounded text-[#40773b] bg-white font-semibold hover:bg-[#40773b] hover:text-white"
+            onClick={signout}
+          >
+            Logout
+          </button>
         </div>
       </div>
     </div>
