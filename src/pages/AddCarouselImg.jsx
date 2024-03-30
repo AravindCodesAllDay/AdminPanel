@@ -1,33 +1,6 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import React from "react";
 
-export default function CarouselImg() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    const verifyToken = async () => {
-      try {
-        if (!token) {
-          throw new Error("Token not found");
-        }
-
-        const response = await fetch(
-          `${import.meta.env.VITE_API}admin/verify/${token}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to verify token");
-        }
-      } catch (error) {
-        console.error("Error verifying token:", error);
-        navigate("/");
-      }
-    };
-    verifyToken();
-  }, [navigate]);
-
+export default function AddCarouselImg() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -53,7 +26,6 @@ export default function CarouselImg() {
 
   return (
     <>
-      <Navbar />
       <div className="flex justify-center mt-12">
         <h1 className="text-xl font-semibold font-content text-primecolor mt-2">
           Upload Carousel Images

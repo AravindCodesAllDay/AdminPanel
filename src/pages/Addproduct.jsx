@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 
 export default function Addproduct() {
-  const navigate = useNavigate();
-
   const [name, setProductName] = useState("");
   const [price, setPrice] = useState("");
   const [photo, setPhoto] = useState();
@@ -25,29 +21,6 @@ export default function Addproduct() {
     formData.append("rating", rating);
     formData.append("numOfRating", numOfRating);
 
-    useEffect(() => {
-      const token = sessionStorage.getItem("token");
-      const verifyToken = async () => {
-        try {
-          if (!token) {
-            throw new Error("Token not found");
-          }
-
-          const response = await fetch(
-            `${import.meta.env.VITE_API}admin/verify/${token}`
-          );
-
-          if (!response.ok) {
-            throw new Error("Failed to verify token");
-          }
-        } catch (error) {
-          console.error("Error verifying token:", error);
-          navigate("/");
-        }
-      };
-      verifyToken();
-    }, [navigate]);
-
     const res = await fetch(`${import.meta.env.VITE_API}products`, {
       method: "POST",
       body: formData,
@@ -58,7 +31,6 @@ export default function Addproduct() {
 
   return (
     <>
-      <Navbar />
       <div className="flex justify-center mt-12">
         <h1 className="text-xl font-semibold font-content text-primecolor mt-2">
           Add your new product here

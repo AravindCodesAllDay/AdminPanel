@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
 
 export default function PopularProducts() {
   const [products, setProducts] = useState([]);
@@ -78,18 +77,21 @@ export default function PopularProducts() {
   };
 
   return (
-    <div>
-      <Navbar />
-      <form onSubmit={handleSubmission} className="flex flex-col" action="">
+    <div className="w-screen flex flex-col items-center justify-center">
+      <h2 className="mt-12 font-semibold text-2xl">Popular Products</h2>
+      <form
+        onSubmit={handleSubmission}
+        className="flex flex-col w-[700px] m-8 border-2 rounded p-8 justify-center items-center gap-4"
+      >
         {/* Input fields for selecting products and entering tags */}
         {/* Repeat for each product */}
         {[1, 2, 3, 4].map((index) => (
-          <div key={index} className="flex items-center mb-4">
+          <div key={index} className="flex gap-3 items-center mb-4">
             <select
               name={`popularproduct${index}`}
               value={formData[`popularproduct${index}`]}
               onChange={handleInputChange}
-              className="mr-2"
+              className="border rounded px-2 py-1"
             >
               <option value="">Select Product</option>
               {products.map((product) => (

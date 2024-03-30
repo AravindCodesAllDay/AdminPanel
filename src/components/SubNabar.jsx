@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import img1 from "../assets/Logo01.webp";
 
-export default function Navbar({ children }) {
+export default function SubNavbar({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,7 +33,6 @@ export default function Navbar({ children }) {
     sessionStorage.clear();
     navigate("/");
   };
-
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-[2px] relative bg-white">
@@ -50,57 +49,22 @@ export default function Navbar({ children }) {
           <div className="flex items-center gap-[16px] relative">
             <div
               className={`text-[16px] ${
-                location.pathname === "/viewproducts"
+                location.pathname === "/users"
                   ? "text-[#6b986a]"
                   : "hover:text-[#6b986a] text-white"
               }`}
             >
-              <Link to={`/viewproducts`}>ViewProduct</Link>
+              <Link to={`/users`}>Users</Link>
             </div>
-            <div
-              className={`text-[16px] ${
-                location.pathname === "/add"
-                  ? "text-[#6b986a]"
-                  : "hover:text-[#6b986a] text-white"
-              }`}
-            >
-              <Link to={`/add`}>AddProduct</Link>
-            </div>
-            <div
-              className={`text-[16px] ${
-                location.pathname === "/viewusers"
-                  ? "text-[#6b986a]"
-                  : "hover:text-[#6b986a] text-white"
-              }`}
-            >
-              <Link to={`/viewusers`}>ViewUsers</Link>
-            </div>
+
             <div
               className={` text-[16px] ${
-                location.pathname === "/addcarousel"
+                location.pathname === "/orders"
                   ? "text-[#6b986a]"
                   : "hover:text-[#6b986a] text-white"
               }`}
             >
-              <Link to={`/carousel`}>AddCarousel</Link>
-            </div>
-            <div
-              className={` text-[16px] ${
-                location.pathname === "/popularproducts"
-                  ? "text-[#6b986a]"
-                  : "hover:text-[#6b986a] text-white"
-              }`}
-            >
-              <Link to={`/popularproducts`}>PopularProducts</Link>
-            </div>
-            <div
-              className={` text-[16px] ${
-                location.pathname === "/vieworders"
-                  ? "text-[#6b986a]"
-                  : "hover:text-[#6b986a] text-white"
-              }`}
-            >
-              <Link to={`/vieworders`}>ViewOrders</Link>
+              <Link to={`/orders`}>Orders</Link>
             </div>
           </div>
           <div>

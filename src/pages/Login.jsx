@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import img1 from "../assets/Logo01.webp";
+import google from "../assets/google.png";
+import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -63,6 +66,44 @@ const Login = () => {
     }
   };
 
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => setUser(codeResponse),
+    onError: (error) => console.log("Login Failed:", error),
+  });
+
+  useEffect(() => {
+    if (user) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.access_token}`,
+              Accept: "application/json",
+            },
+          }
+        )
+        .then(async (res) => {
+          //   setProfile(res.data);
+          const response = await fetch(
+            `${import.meta.env.VITE_API}users/${res.data.email}`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            sessionStorage.setItem("id", data._id);
+            sessionStorage.setItem("name", data.name);
+            nav("/");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+    return () => {
+      if (user) {
+        googleLogout();
+      }
+    };
+  }, [user]);
+
   return (
     <>
       <div className="bg-gray-100 h-screen">
@@ -77,9 +118,9 @@ const Login = () => {
           </Link>
         </div>
         <div className="h-100% flex justify-center items-center bg-gray-100 p-12">
-          <div className="bg-white p-8 px-16 rounded-md shadow-lg w-[440px]">
+          <div className="bg-white p-8 px-16 rounded-lg shadow-lg w-[440px]">
             <h2 className="text-[#277933] text-2xl mb-6 text-center font-semibold">
-              Login
+              Admin Login
             </h2>
             <form onSubmit={handleSubmission} className="flex flex-col gap-6">
               <input
@@ -96,7 +137,6 @@ const Login = () => {
                 placeholder="Password"
                 className="input-field border-[1px] p-2 rounded border-[#0d5b41]"
               />
-              <Link to="/otp">Forgot Password?</Link>
               <button
                 type="submit"
                 className="submit-button bg-[#277933] text-white h-10 p-2 rounded"
@@ -104,6 +144,15 @@ const Login = () => {
                 Submit
               </button>
             </form>
+            <hr className="my-3" />
+            <button
+              className="submit-button text-black p-2 border-2 my-2 rounded-full flex items-center w-full justify-center"
+              // onClick={login}
+              onClick={() => navigate("users")}
+            >
+              <img src={google} alt="google logo" className="h-6 mr-2" />
+              <p className=" font-semibold">Continue with Google</p>
+            </button>
           </div>
         </div>
       </div>

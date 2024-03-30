@@ -1,58 +1,107 @@
+import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./index.css";
-import NoPage from "./pages/NoPage.jsx";
+import { RouterProvider, createHashRouter } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import Navbar from "./components/Navbar.jsx";
+import SubNavbar from "./components/SubNabar.jsx";
 import Login from "./pages/Login.jsx";
 import UpdateProduct from "./pages/Update.jsx";
-import Addproduct from "./pages/Addproduct.jsx";
 import ViewProducts from "./pages/ViewProducts.jsx";
-import CarouselImg from "./pages/CarouselImg.jsx";
+import Addproduct from "./pages/Addproduct.jsx";
+import AddCarouselImg from "./pages/AddCarouselImg.jsx";
 import PopularProducts from "./pages/PopularProducts.jsx";
 import ViewUsers from "./pages/ViewUsers.jsx";
-import Orders from "./pages/Orders.jsx";
+import ViewOrders from "./pages/ViewOrders.jsx";
+import NoPage from "./pages/NoPage.jsx";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Login />,
   },
   {
     path: "/viewproducts",
-    element: <ViewProducts />,
+    element: (
+      <Navbar>
+        <ViewProducts />
+      </Navbar>
+    ),
   },
   {
     path: "/update/:_id",
-    element: <UpdateProduct />,
+    element: (
+      <Navbar>
+        <UpdateProduct />
+      </Navbar>
+    ),
   },
   {
     path: "/viewusers",
-    element: <ViewUsers />,
+    element: (
+      <Navbar>
+        <ViewUsers />
+      </Navbar>
+    ),
   },
   {
     path: "/add",
-    element: <Addproduct />,
+    element: (
+      <Navbar>
+        <Addproduct />
+      </Navbar>
+    ),
   },
   {
-    path: "/carousel",
-    element: <CarouselImg />,
+    path: "/addcarousel",
+    element: (
+      <Navbar>
+        <AddCarouselImg />
+      </Navbar>
+    ),
   },
   {
     path: "/popularproducts",
-    element: <PopularProducts />,
+    element: (
+      <Navbar>
+        <PopularProducts />
+      </Navbar>
+    ),
   },
   {
-    path: "/orders",
-    element: <Orders />,
+    path: "/vieworders",
+    element: (
+      <Navbar>
+        <ViewOrders />
+      </Navbar>
+    ),
   },
   {
     path: "*",
     element: <NoPage />,
   },
+  {
+    path: "/users",
+    element: (
+      <SubNavbar>
+        <ViewUsers />
+      </SubNavbar>
+    ),
+  },
+  {
+    path: "/orders",
+    element: (
+      <SubNavbar>
+        <ViewOrders />
+      </SubNavbar>
+    ),
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <GoogleOAuthProvider clientId="154374303742-6fvp12c1uut9b1l6qnlpr6esvt2d3eq9.apps.googleusercontent.com">
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </GoogleOAuthProvider>
 );

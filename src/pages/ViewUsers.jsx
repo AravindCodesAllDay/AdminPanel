@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-import Navbar from "../components/Navbar";
 
 export default function ViewUsers() {
-  const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
 
   const deleteUser = async (_id) => {
@@ -20,29 +17,6 @@ export default function ViewUsers() {
       }
     }
   };
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    const verifyToken = async () => {
-      try {
-        if (!token) {
-          throw new Error("Token not found");
-        }
-
-        const response = await fetch(
-          `${import.meta.env.VITE_API}admin/verify/${token}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to verify token");
-        }
-      } catch (error) {
-        console.error("Error verifying token:", error);
-        navigate("/");
-      }
-    };
-    verifyToken();
-  }, [navigate]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -122,7 +96,6 @@ export default function ViewUsers() {
 
   return (
     <>
-      <Navbar />
       <div className=" flex justify-center items-center m-3">
         <Box>
           <DataGrid
