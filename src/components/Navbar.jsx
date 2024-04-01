@@ -8,6 +8,7 @@ export default function Navbar({ children }) {
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
+
     const verifyToken = async () => {
       try {
         if (!token) {
@@ -82,7 +83,7 @@ export default function Navbar({ children }) {
                   : "hover:text-[#6b986a] text-white"
               }`}
             >
-              <Link to={`/carousel`}>AddCarousel</Link>
+              <Link to={`/addcarousel`}>AddCarousel</Link>
             </div>
             <div
               className={` text-[16px] ${
@@ -101,6 +102,24 @@ export default function Navbar({ children }) {
               }`}
             >
               <Link to={`/vieworders`}>ViewOrders</Link>
+            </div>
+            <div
+              className={` text-[16px] ${
+                location.pathname === "/viewsubadmins"
+                  ? "text-[#6b986a]"
+                  : "hover:text-[#6b986a] text-white"
+              }`}
+            >
+              <Link to={`/viewsubadmins`}>ViewSubAdmins</Link>
+            </div>
+            <div
+              className={` text-[16px] ${
+                location.pathname === "/addsubadmin"
+                  ? "text-[#6b986a]"
+                  : "hover:text-[#6b986a] text-white"
+              }`}
+            >
+              <Link to={`/addsubadmin`}>AddSubAdmin</Link>
             </div>
           </div>
           <div>

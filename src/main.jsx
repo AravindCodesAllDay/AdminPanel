@@ -14,6 +14,9 @@ import PopularProducts from "./pages/PopularProducts.jsx";
 import ViewUsers from "./pages/ViewUsers.jsx";
 import ViewOrders from "./pages/ViewOrders.jsx";
 import NoPage from "./pages/NoPage.jsx";
+import Profile from "./pages/Profile.jsx";
+import AddSubAdmin from "./pages/AddSubAdmin.jsx";
+import ViewSubAdmin from "./pages/ViewSubAdmin.jsx";
 
 const router = createHashRouter([
   {
@@ -41,6 +44,14 @@ const router = createHashRouter([
     element: (
       <Navbar>
         <ViewUsers />
+      </Navbar>
+    ),
+  },
+  {
+    path: "/viewuserprofile/:userId",
+    element: (
+      <Navbar>
+        <Profile />
       </Navbar>
     ),
   },
@@ -73,6 +84,22 @@ const router = createHashRouter([
     element: (
       <Navbar>
         <ViewOrders />
+      </Navbar>
+    ),
+  },
+  {
+    path: "/viewsubadmins",
+    element: (
+      <Navbar>
+        <ViewSubAdmin />
+      </Navbar>
+    ),
+  },
+  {
+    path: "/addsubadmin",
+    element: (
+      <Navbar>
+        <AddSubAdmin />
       </Navbar>
     ),
   },

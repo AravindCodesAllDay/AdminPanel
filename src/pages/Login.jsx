@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { googleLogout, useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 import img1 from "../assets/Logo01.webp";
 import google from "../assets/google.png";
-import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,43 +21,24 @@ const Login = () => {
         import.meta.env.VITE_LOGIN === username &&
         import.meta.env.VITE_PSWD === password
       ) {
-        const loginRes = await fetch(`${import.meta.env.VITE_API}admin/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, password }), // Assuming the login API requires username and password
-        });
+        const loginRes = await fetch(
+          `${import.meta.env.VITE_API}admin/logintoken`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!loginRes.ok) {
           throw new Error("Login failed");
         }
 
         const loginData = await loginRes.json();
+        sessionStorage.setItem("token", loginData.token);
         console.log(loginData);
-        const verifyRes = await fetch(
-          `${import.meta.env.VITE_API}admin/verify/${loginData.token}`,
-          {
-            method: "GET", // Adjust the method according to your backend route
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${loginData.token}`, // Assuming your backend expects token in Authorization header
-            },
-          }
-        );
-
-        if (!verifyRes.ok) {
-          throw new Error("Token verification failed");
-        }
-
-        const verificationData = await verifyRes.json();
-
-        if (verificationData.valid) {
-          sessionStorage.setItem("token", loginData.token);
-          navigate("/viewproducts");
-        } else {
-          toast.error("Token verification failed");
-        }
+        navigate("/viewproducts");
       } else {
         toast.error("Invalid username or password");
       }
@@ -84,15 +66,51 @@ const Login = () => {
           }
         )
         .then(async (res) => {
-          //   setProfile(res.data);
-          const response = await fetch(
-            `${import.meta.env.VITE_API}users/${res.data.email}`
-          );
-          if (response.ok) {
-            const data = await response.json();
-            sessionStorage.setItem("id", data._id);
-            sessionStorage.setItem("name", data.name);
-            nav("/");
+          // Assuming user.email contains the email obtained from Google login
+          const email = res.data.email;
+
+          try {
+            const adminResponse = await fetch(
+              `${import.meta.env.VITE_API}admin`,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (!adminResponse.ok) {
+              throw new Error("Admin not found");
+            }
+
+            const subAdmins = await adminResponse.json();
+
+            // Check if the user email is in the list of subadmins
+            if (!subAdmins.subusers.includes(email)) {
+              throw new Error("Unauthorized access");
+            }
+
+            const loginRes = await fetch(
+              `${import.meta.env.VITE_API}admin/logintoken`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (!loginRes.ok) {
+              throw new Error("Login failed");
+            }
+
+            const loginData = await loginRes.json();
+            sessionStorage.setItem("token", loginData.token);
+            navigate("/users");
+          } catch (error) {
+            console.error("Error during login:", error.message);
+            toast.error("Error during login, try again later");
           }
         })
         .catch((err) => console.log(err));
@@ -147,8 +165,7 @@ const Login = () => {
             <hr className="my-3" />
             <button
               className="submit-button text-black p-2 border-2 my-2 rounded-full flex items-center w-full justify-center"
-              // onClick={login}
-              onClick={() => navigate("users")}
+              onClick={login}
             >
               <img src={google} alt="google logo" className="h-6 mr-2" />
               <p className=" font-semibold">Continue with Google</p>
