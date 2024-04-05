@@ -48,16 +48,6 @@ export default function SubNavbar({ children }) {
         <div className="flex items-center justify-between px-4 lg:px-10 py-4 lg:py-13 relative w-full bg-[#40773b]">
           <div className="flex items-center gap-[16px] relative">
             <div
-              className={`text-[16px] ${
-                location.pathname === "/users"
-                  ? "text-[#6b986a]"
-                  : "hover:text-[#6b986a] text-white"
-              }`}
-            >
-              <Link to={`/users`}>Users</Link>
-            </div>
-
-            <div
               className={` text-[16px] ${
                 location.pathname === "/orders"
                   ? "text-[#6b986a]"

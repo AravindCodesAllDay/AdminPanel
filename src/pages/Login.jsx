@@ -107,7 +107,7 @@ const Login = () => {
 
             const loginData = await loginRes.json();
             sessionStorage.setItem("token", loginData.token);
-            navigate("/users");
+            navigate("/orders");
           } catch (error) {
             console.error("Error during login:", error.message);
             toast.error("Error during login, try again later");

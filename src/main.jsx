@@ -108,14 +108,6 @@ const router = createHashRouter([
     element: <NoPage />,
   },
   {
-    path: "/users",
-    element: (
-      <SubNavbar>
-        <ViewUsers />
-      </SubNavbar>
-    ),
-  },
-  {
     path: "/orders",
     element: (
       <SubNavbar>
