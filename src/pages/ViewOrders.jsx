@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 
 export default function ViewOrders() {
-  const [orderData, setOrderData] = useState([]);
   const [pendingOrders, setPendingOrders] = useState([]);
   const [deliveredOrders, setDeliveredOrders] = useState([]);
   const [canceledOrders, setCanceledOrders] = useState([]);
@@ -18,7 +17,6 @@ export default function ViewOrders() {
         }
         const ordersData = await response.json();
         const mappedOrders = ordersData.map(mapOrderData);
-        setOrderData(mappedOrders);
         setPendingOrders(
           mappedOrders.filter((order) => order.status === "pending")
         );
@@ -46,11 +44,10 @@ export default function ViewOrders() {
       data.pincode;
     return finalAddress;
   };
-
   const mapOrderData = (order) => ({
     id: order._id,
     address: getAddress(order.address),
-    phone: order.phone,
+    phone: order.address.addressContact,
     date: order.date,
     products: order.products,
     status: order.orderStatus,

@@ -11,7 +11,6 @@ export default function ViewSubAdmin() {
         }
         const data = await response.json();
         setSubAdmins(data.subusers);
-        console.log(data);
       } catch (error) {
         console.error("Error fetching sub-admins:", error.message);
       }
@@ -45,32 +44,37 @@ export default function ViewSubAdmin() {
   };
 
   return (
-    <div>
-      <h2>Sub-admins</h2>
-      {subAdmins.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Email</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {subAdmins.map((subAdmin, index) => (
-              <tr key={index}>
-                <td>{subAdmin}</td>
-                <td>
-                  <button onClick={() => handleRemoveSubAdmin(subAdmin)}>
-                    Remove
-                  </button>
-                </td>
+    <div className="w-full flex justify-center flex-col items-center">
+      <h2 className="text-2xl font-semibold">Sub-admins</h2>
+      <div>
+        {subAdmins.length > 0 ? (
+          <table className="m-3 shadow-lg border-2 p-2">
+            <thead>
+              <tr className="border-b-2">
+                <th className="m-1">Email</th>
+                <th className="m-1">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>No sub-admins found</p>
-      )}
+            </thead>
+            <tbody>
+              {subAdmins.map((subAdmin, index) => (
+                <tr key={index} className="border-b-2">
+                  <td className="p-2 font-semibold">{subAdmin}</td>
+                  <td>
+                    <button
+                      onClick={() => handleRemoveSubAdmin(subAdmin)}
+                      className="bg-red-700 text-white p-1 m-1 rounded"
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No sub-admins found</p>
+        )}
+      </div>
     </div>
   );
 }

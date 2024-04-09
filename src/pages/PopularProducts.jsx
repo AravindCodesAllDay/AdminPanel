@@ -112,7 +112,7 @@ export default function PopularProducts() {
         ))}
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className=" shadow-md rounded py-1 px-2 font-bold mx-auto text-primecolor bg-green-800 text-white font-content focus:outline-brown hover:bg-gray-100 hover:text-green-800"
         >
           Add Popular Products
         </button>

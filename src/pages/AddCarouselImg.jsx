@@ -82,7 +82,7 @@ export default function AddCarouselImg() {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="shadow-md rounded py-2 px-3 mt-3 text-primecolor bg-gray-50 font-content focus:outline-brown hover:bg-primecolor hover:text-white"
+              className=" shadow-md rounded py-1 px-2 mt-3 font-bold mx-auto text-primecolor bg-green-800 text-white font-content focus:outline-brown hover:bg-gray-100 hover:text-green-800"
             >
               Submit
             </button>

@@ -15,7 +15,6 @@ export default function ViewUsers() {
           throw new Error("Failed to fetch users");
         }
         const usersData = await response.json();
-        console.log(usersData);
         setUserData(usersData.map(mapUserData));
       } catch (error) {
         console.error("Error fetching user data:", error);
