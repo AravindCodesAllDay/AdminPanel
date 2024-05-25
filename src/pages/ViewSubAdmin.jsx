@@ -2,44 +2,48 @@ import React, { useState, useEffect } from "react";
 export default function ViewSubAdmin() {
   const [subAdmins, setSubAdmins] = useState([]);
 
-  useEffect(() => {
-    async function fetchSubAdmins() {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API}admin/`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch sub-admins");
-        }
-        const data = await response.json();
-        setSubAdmins(data.subusers);
-      } catch (error) {
-        console.error("Error fetching sub-admins:", error.message);
+  async function fetchSubAdmins() {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API}admin/subadmins`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch sub-admins");
       }
+      const data = await response.json();
+      setSubAdmins(data);
+    } catch (error) {
+      console.error("Error fetching sub-admins:", error.message);
     }
+  }
 
+  useEffect(() => {
     fetchSubAdmins();
   }, []);
 
-  const handleRemoveSubAdmin = async (email) => {
+  const handleRemoveSubAdmin = async (mail) => {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API}admin/removesubadmin`,
         {
-          method: "PUT",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({ mail }),
         }
       );
-      if (response.ok) {
-        alert("Sub-admin removed successfully");
-        setSubAdmins(subAdmins.filter((subAdmin) => subAdmin !== email));
-      } else {
-        throw new Error("Failed to remove sub-admin");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to remove sub-admin");
       }
+
+      fetchSubAdmins();
+      alert("Sub-admin removed successfully");
     } catch (error) {
       console.error("Error removing sub-admin:", error.message);
-      alert("Error removing sub-admin, please try again later");
+      alert(`Error removing sub-admin: ${error.message}`);
     }
   };
 
@@ -58,10 +62,10 @@ export default function ViewSubAdmin() {
             <tbody>
               {subAdmins.map((subAdmin, index) => (
                 <tr key={index} className="border-b-2">
-                  <td className="p-2 font-semibold">{subAdmin}</td>
+                  <td className="p-2 font-semibold">{subAdmin.mail}</td>
                   <td>
                     <button
-                      onClick={() => handleRemoveSubAdmin(subAdmin)}
+                      onClick={() => handleRemoveSubAdmin(subAdmin.mail)}
                       className="bg-red-700 text-white p-1 m-1 rounded"
                     >
                       Remove

@@ -1,42 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function AddCarouselImg() {
-  const renderInputField = (labelText, inputName) => (
-    <div className="flex gap-3 items-center">
-      <label
-        htmlFor={inputName}
-        className="font-semibold font-content text-primecolor"
-      >
-        {labelText}:
-      </label>
-      <input
-        type="file"
-        className="w-96 shadow-md rounded py-2 px-3 bg-gray-50 font-content focus:outline-brown"
-        id={inputName}
-        name={inputName}
-        accept="image/*"
-        required
-      />
-    </div>
-  );
+  const [productData, setProductData] = useState({
+    laptopPhotos: [],
+    mobilePhotos: [],
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
+
+    const formData = new FormData();
+
+    productData.laptopPhotos.forEach((file) => {
+      formData.append("laptopPhotos", file);
+    });
+    productData.mobilePhotos.forEach((file) => {
+      formData.append("mobilePhotos", file);
+    });
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API}carousel/`, {
+      const res = await fetch(`${import.meta.env.VITE_API}products`, {
         method: "POST",
         body: formData,
       });
 
-      if (response.ok) {
-        console.log("Images uploaded successfully.");
-      } else {
-        console.error("Error uploading images.");
+      if (!res.ok) {
+        throw new Error(`Error: ${res.statusText}`);
       }
+
+      setSuccess("Product added successfully!");
+      setError(null);
+
+      setProductData({
+        laptopPhotos: [],
+        mobilePhotos: [],
+      });
     } catch (error) {
-      console.error("Error uploading images:", error);
+      console.error("Error adding product:", error);
+      setError("Error adding product. Please try again.");
+      setSuccess(null);
+    }
+  };
+
+  const handleImageChanges = (e) => {
+    const { name } = e.target;
+    const files = Array.from(e.target.files);
+
+    for (const file of files) {
+      if (file.size > 1048576) {
+        alert(
+          `File ${file.name} is too big! Each file must be less than 1 MB.`
+        );
+        return;
+      }
+    }
+
+    switch (name) {
+      case "laptopPhotos":
+        setProductData((prevData) => ({
+          ...prevData,
+          laptopPhotos: [...prevData.laptopPhotos, ...files],
+        }));
+        break;
+      case "mobilePhotos":
+        setProductData((prevData) => ({
+          ...prevData,
+          mobilePhotos: [...prevData.mobilePhotos, ...files],
+        }));
+        break;
+      default:
+        break;
     }
   };
 
@@ -53,31 +86,35 @@ export default function AddCarouselImg() {
           encType="multipart/form-data"
           className="shadow-lg p-5 rounded-lg flex flex-col"
         >
-          <div className="flex gap-3">
-            <div className="flex flex-col gap-5">
-              {renderInputField("Laptop Carousel Image 1", "carouselImage1")}
-              {renderInputField("Laptop Carousel Image 2", "carouselImage2")}
-              {renderInputField("Laptop Carousel Image 3", "carouselImage3")}
-              {renderInputField("Laptop Carousel Image 4", "carouselImage4")}
-            </div>
-            <div className="flex flex-col gap-5">
-              {renderInputField(
-                "Mobile Carousel Image 1",
-                "mobileCarouselImage1"
-              )}
-              {renderInputField(
-                "Mobile Carousel Image 2",
-                "mobileCarouselImage2"
-              )}
-              {renderInputField(
-                "Mobile Carousel Image 3",
-                "mobileCarouselImage3"
-              )}
-              {renderInputField(
-                "Mobile Carousel Image 4",
-                "mobileCarouselImage4"
-              )}
-            </div>
+          <div className="flex w-full m-2 items-center">
+            <label
+              className="text-l font-semibold font-content text-primecolor"
+              htmlFor="laptopPhotos"
+            >
+              Laptop Carousels:
+            </label>
+            <input
+              className="w-96 shadow-md rounded p-2 bg-gray-50 font-content focus:outline-brown"
+              type="file"
+              name="laptopPhotos"
+              multiple
+              onChange={handleImageChanges}
+            />
+          </div>
+          <div className="flex w-full m-2 items-center">
+            <label
+              className="text-l font-semibold font-content text-primecolor"
+              htmlFor="mobilePhotos"
+            >
+              Mobile Carousels:
+            </label>
+            <input
+              className="w-96 shadow-md rounded p-2 bg-gray-50 font-content focus:outline-brown"
+              type="file"
+              name="mobilePhotos"
+              multiple
+              onChange={handleImageChanges}
+            />
           </div>
           <div className="flex justify-center">
             <button

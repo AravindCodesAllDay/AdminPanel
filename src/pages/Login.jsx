@@ -10,37 +10,39 @@ import google from "../assets/google.png";
 const Login = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [mail, setMail] = useState("");
+  const [pswd, setPswd] = useState("");
 
   const handleSubmission = async (e) => {
     e.preventDefault();
-
     try {
-      if (
-        import.meta.env.VITE_LOGIN === username &&
-        import.meta.env.VITE_PSWD === password
-      ) {
-        const loginRes = await fetch(
-          `${import.meta.env.VITE_API}admin/logintoken`,
+      const response = await fetch(`${import.meta.env.VITE_API}admin/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mail, pswd }),
+      });
+
+      if (response.ok) {
+        const { token } = await response.json();
+        sessionStorage.setItem("token", token);
+        navigate("/viewproducts");
+      } else {
+        const subAdminResponse = await fetch(
+          `${import.meta.env.VITE_API}admin/subadminlogin`,
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mail, pswd }),
           }
         );
 
-        if (!loginRes.ok) {
-          throw new Error("Login failed");
+        if (subAdminResponse.ok) {
+          const { token } = await subAdminResponse.json();
+          sessionStorage.setItem("token", token);
+          navigate("/orders");
+        } else {
+          toast.error("Invalid email or password");
         }
-
-        const loginData = await loginRes.json();
-        sessionStorage.setItem("token", loginData.token);
-        console.log(loginData);
-        navigate("/viewproducts");
-      } else {
-        toast.error("Invalid username or password");
       }
     } catch (error) {
       console.error("Error during login:", error.message);
@@ -66,28 +68,20 @@ const Login = () => {
           }
         )
         .then(async (res) => {
-          // Assuming user.email contains the email obtained from Google login
-          const email = res.data.email;
+          const mail = res.data.email;
 
           try {
-            const adminResponse = await fetch(
-              `${import.meta.env.VITE_API}admin`,
-              {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              }
+            const response = await fetch(
+              `${import.meta.env.VITE_API}admin/subadmins`,
+              { method: "GET", headers: { "Content-Type": "application/json" } }
             );
 
-            if (!adminResponse.ok) {
-              throw new Error("Admin not found");
+            if (!response.ok) {
+              throw new Error("Subadmin not found");
             }
 
-            const subAdmins = await adminResponse.json();
-
-            // Check if the user email is in the list of subadmins
-            if (!subAdmins.subusers.includes(email)) {
+            const subAdmins = await response.json();
+            if (!subAdmins.some((subAdmin) => subAdmin.mail === mail)) {
               throw new Error("Unauthorized access");
             }
 
@@ -95,9 +89,7 @@ const Login = () => {
               `${import.meta.env.VITE_API}admin/logintoken`,
               {
                 method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
               }
             );
 
@@ -105,8 +97,8 @@ const Login = () => {
               throw new Error("Login failed");
             }
 
-            const loginData = await loginRes.json();
-            sessionStorage.setItem("token", loginData.token);
+            const { token } = await loginRes.json();
+            sessionStorage.setItem("token", token);
             navigate("/orders");
           } catch (error) {
             console.error("Error during login:", error.message);
@@ -123,57 +115,55 @@ const Login = () => {
   }, [user]);
 
   return (
-    <>
-      <div className="bg-gray-100 h-screen">
-        <ToastContainer />
-        <div className="flex flex-row bg-gray-100 justify-center">
-          <Link to="/">
-            <img
-              className="relative h-[100px] object-cover"
-              alt="Image"
-              src={img1}
+    <div className="bg-gray-100 h-screen">
+      <ToastContainer />
+      <div className="flex flex-row bg-gray-100 justify-center">
+        <Link to="/">
+          <img
+            className="relative h-[100px] object-cover"
+            alt="Image"
+            src={img1}
+          />
+        </Link>
+      </div>
+      <div className="flex justify-center items-center bg-gray-100 p-12">
+        <div className="bg-white p-8 px-16 rounded-lg shadow-lg w-[440px]">
+          <h2 className="text-[#277933] text-2xl mb-6 text-center font-semibold">
+            Admin Login
+          </h2>
+          <form onSubmit={handleSubmission} className="flex flex-col gap-6">
+            <input
+              type="text"
+              value={mail}
+              onChange={(e) => setMail(e.target.value)}
+              placeholder="Email"
+              className="input-field border-[1px] p-2 rounded border-[#0d5b41]"
             />
-          </Link>
-        </div>
-        <div className="h-100% flex justify-center items-center bg-gray-100 p-12">
-          <div className="bg-white p-8 px-16 rounded-lg shadow-lg w-[440px]">
-            <h2 className="text-[#277933] text-2xl mb-6 text-center font-semibold">
-              Admin Login
-            </h2>
-            <form onSubmit={handleSubmission} className="flex flex-col gap-6">
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Email"
-                className="input-field border-[1px] p-2 rounded border-[#0d5b41]"
-              />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className="input-field border-[1px] p-2 rounded border-[#0d5b41]"
-              />
-              <button
-                type="submit"
-                className="submit-button bg-[#277933] text-white h-10 p-2 rounded"
-              >
-                Submit
-              </button>
-            </form>
-            <hr className="my-3" />
+            <input
+              type="password"
+              value={pswd}
+              onChange={(e) => setPswd(e.target.value)}
+              placeholder="Password"
+              className="input-field border-[1px] p-2 rounded border-[#0d5b41]"
+            />
             <button
-              className="submit-button text-black p-2 border-2 my-2 rounded-full flex items-center w-full justify-center"
-              onClick={login}
+              type="submit"
+              className="submit-button bg-[#277933] text-white h-10 p-2 rounded"
             >
-              <img src={google} alt="google logo" className="h-6 mr-2" />
-              <p className=" font-semibold">Continue with Google</p>
+              Submit
             </button>
-          </div>
+          </form>
+          <hr className="my-3" />
+          <button
+            className="submit-button text-black p-2 border-2 my-2 rounded-full flex items-center w-full justify-center"
+            onClick={login}
+          >
+            <img src={google} alt="google logo" className="h-6 mr-2" />
+            <p className="font-semibold">Continue with Google</p>
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
