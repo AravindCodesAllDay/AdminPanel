@@ -16,11 +16,14 @@ const Login = () => {
   const handleSubmission = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${import.meta.env.VITE_API}admin/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mail, pswd }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API}admin/logintoken`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mail, pswd }),
+        }
+      );
 
       if (response.ok) {
         const { token } = await response.json();
